@@ -1,0 +1,12 @@
+[submodule "riscv-rt"]
+	path = riscv-rt
+	url = https://github.com/rust-embedded/riscv-rt.git
+[submodule "k210-pac"]
+	path = k210-pac
+	url = https://github.com/riscv-rust/k210-pac.git
+[submodule "k210-hal"]
+	path = k210-hal
+	url = https://github.com/riscv-rust/k210-hal.git
+[submodule "k210-example"]
+	path = k210-example
+	url = https://github.com/riscv-rust/k210-example.git
