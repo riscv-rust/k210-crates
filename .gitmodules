@@ -10,3 +10,6 @@
 [submodule "k210-example"]
 	path = k210-example
 	url = https://github.com/riscv-rust/k210-example.git
+[submodule "riscv"]
+	path = riscv
+	url = https://github.com/rust-embedded/riscv.git
