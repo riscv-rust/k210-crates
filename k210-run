@@ -1,0 +1,30 @@
+#!/bin/bash
+
+set -e
+
+OPTS="--sram"
+
+if [ "$1" == "--ram" ]; then
+    OPTS="--sram"
+    shift
+fi
+
+if [ "$1" == "--flash" ]; then
+    OPTS=""
+    shift
+fi
+
+
+ELF="$1"
+
+if [ ! -e "$ELF" ]; then
+	echo "Can't find input ELF file"
+	echo "Usage: $0 [--ram|--flash] path/to/elf"
+	exit 1
+fi
+
+FW="$(dirname "$ELF")/firmware.bin"
+riscv64-unknown-elf-objcopy -O binary "$ELF" "$FW"
+
+dir=$(dirname $(readlink -f $0))
+"$dir/kflash.py" --port /dev/serial/by-id/usb-1a86_USB2.0-Serial-if00-port0 $OPTS --terminal -v "$FW"
