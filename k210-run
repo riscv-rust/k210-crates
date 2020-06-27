@@ -27,4 +27,27 @@ FW="$(dirname "$ELF")/firmware.bin"
 riscv64-unknown-elf-objcopy -O binary "$ELF" "$FW"
 
 dir=$(dirname $(readlink -f $0))
-"$dir/kflash.py" --port /dev/serial/by-id/usb-1a86_USB2.0-Serial-if00-port0 $OPTS --terminal -v "$FW"
+
+declare -a known_serial_ids
+known_serial_ids[0]=/dev/serial/by-id/usb-1a86_USB2.0-Serial-if00-port0
+
+# Sipeed MAIX bit, CH340 based, board
+known_serial_ids[1]=/dev/serial/by-id/usb-Kongou_Hikari_Sipeed-Debug_A1525D0091-if00-port0
+
+SERIAL_DEV=""
+for serial_dev in "${known_serial_ids[@]}"
+do
+    if [ -e "$serial_dev" ]
+    then
+        SERIAL_DEV="$serial_dev"
+        break
+    fi
+done
+
+if [[ -z "$SERIAL_DEV" ]]
+then
+    echo "Can't find matching serial device"
+    exit 1
+fi
+
+"$dir/kflash.py" --port "$SERIAL_DEV" $OPTS --terminal --verbose "$FW"
