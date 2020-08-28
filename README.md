@@ -6,6 +6,11 @@ This project is developed and maintained by the [RISC-V team][team].
 
 ## Getting started
 
+After cloning the repository, initialize the git submodules:
+
+    git submodule init
+    git submodule update
+
 Running the example:
 
     cd k210-example
