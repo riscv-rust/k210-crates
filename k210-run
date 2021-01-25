@@ -26,7 +26,7 @@ fi
 FW="$(dirname "$ELF")/firmware.bin"
 riscv64-unknown-elf-objcopy -O binary "$ELF" "$FW"
 
-dir=$(dirname $(readlink -f $0))
+dir=$(python3 -c 'import os,sys;print(os.path.realpath(sys.argv[1]))' ..)
 
 declare -a known_serial_ids
 
@@ -35,6 +35,9 @@ known_serial_ids[0]=/dev/serial/by-id/usb-1a86_USB2.0-Serial-if00-port0
 
 # Sipeed MAIX bit, CH340 based, board
 known_serial_ids[1]=/dev/serial/by-id/usb-Kongou_Hikari_Sipeed-Debug_A1525D0091-if00-port0
+
+# Sipeed MAIX bit, on macOS
+known_serial_ids[2]=/dev/tty.usbserial-00320000000
 
 SERIAL_DEV=""
 for serial_dev in "${known_serial_ids[@]}"
